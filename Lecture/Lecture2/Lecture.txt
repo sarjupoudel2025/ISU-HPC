@@ -1,0 +1,81 @@
+Tayler expansion of f(x) about X0
+f(x)= f(x0)+f'(xo)(x-x0) + f''(x0)/2! * (x-x0)^2 + . . . .+ f^n (x0)/n! * (x-x0)^n + f^(n+1) (Greek.xi) / (n+1)! * (x-x0)^(n+1)
+
+
+*******************************************************************************************
+Root Finding of f(x)=0
+-Bissection method.
+Here, we will use Newton's method
+
+^
+|
+|
+|
+|
+|
+|
+|
+------------------------------>
+
+some graph was shown. George has better notes.
+Picture taken: Show how newton's law bring solutions to approximate a value.
+tangent equation at a point in curve was found and the the y value was set to zero to find the
+zeros (x). 
+x(k+1) = x(k) - f(xk)/f'(xk+1)
+
+
+************************************************************************************************8
+find s= sqrt(x) for x
+f(s) = s^2 -x = 0
+Apply Newton's Method to f(s)  = 0
+initial guess S1.
+S_{k+1} = s_{k} - f(S_{k}) / f'(S_{k})
+
+S_{k+1} = s{k} - S^2_{k} -x / (2 * S_{k})
+
+S_{k} ---> sqrt(x)
+      k-> inf
+
+
+***************************************************************************************
+Ex. Evaluate e^x for x assume x_{0} is the closest integer to x
+
+x= (x-x_{0}) +x_{0}
+X= z+x_{0}, z=x-x_{0}
+
+z is close to 0
+e^x = e^(x_{0}) * e^z
+Use Taylor Expansion of e^z near 0.
+
+e^z + 1 + z + z^2 / 2! + z^3 /3! + . . . + z^n /n! +  Greek(xi)^{n+1} / (n+1)!
+
+*****************************************************************************************
+
+from numpy import sqrt related disscussion. 
+newton's method idea. 
+
+
+***********************************************************************************
+"Demo of user defined function"
+"Example : newton method for sqrt(x) for solving f(s)=s^2 - x = 0"
+
+def sqrt(x,kmax):
+    #Convert input to float
+    x= 1.0*x#check if input makes sense
+    if x==0.0
+        return 0.0
+    elif x<0.0:
+        print("Error: input x must be non-negative")
+        return -1.0
+    
+    #main loop
+    s = 1.0
+    for k in range(kmax):
+        print("Before interation %2d, s= %20.15f" % (k,s))
+        sold = s
+        s = 0.5* (x+s/x)
+
+
+
+***********************************************************************************
+Slide presentation of different assigment we will be doing.
