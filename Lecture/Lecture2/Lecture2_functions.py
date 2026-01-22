@@ -21,7 +21,6 @@ def my_exponential(x):
 
     """ Compute the exponential of x using Taylor series expansion. """
     ''' e^x = 1 + x/1! + x^2/2! + x^3/3! + ... + x^n/n! + xi^(n+1)/(n+1)! '''
-    ''' e^x = 1 + (1)*x/(1) + (1 * x)/(1) * (x)/(2) + (1 * x)/(1) * (x)/(2) * (x)/(3) + ... '''
     tolerance = 1e-10
 
     #first term of the exponential series
@@ -33,9 +32,6 @@ def my_exponential(x):
     #Initialize order of the term
     n = 1
     
-    #Checks if the absolute value of the term is small enough to stop
-    #As loops proceeds and terms get smaller, if the computed terms is 
-    #less than the tolerance, we stop the loop
     while abs(term) > tolerance:
 
         # Compute the next term in the series
@@ -79,29 +75,3 @@ def my_logarithm(x):
     
     result = y
     return result
-
-"""
-=======================================================================================
-                                Test the functions
-=======================================================================================
-"""
-
-if __name__ == "__main__":
-
-    # Test the my_factorial function with a sample input
-    test_value = 5
-    print(f"Calculating factorial for: {test_value}")
-    factorial_result = my_factorial(test_value)
-    print(f"Factorial of {test_value} = {factorial_result}")
-   
-    # Test the my_exponential function with a sample input
-    test_value_exp = 2.0
-    print(f"Calculating exponential for: {test_value_exp}")
-    exponential_result = my_exponential(test_value_exp)
-    print(f"Exponential of {test_value_exp} = {exponential_result}")
-
-    # Test the my_logarithm function with a sample input
-    test_value_log = exponential_result#2.718281828459045
-    print(f"Calculating logarithm for: {test_value_log}")
-    logarithm_result = my_logarithm(test_value_log)
-    print(f"Natural logarithm of {test_value_log} = {logarithm_result}")
