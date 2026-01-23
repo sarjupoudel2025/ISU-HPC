@@ -114,6 +114,10 @@ def my_sqrt(x):
 """
 
 if __name__ == "__main__":
+    
+
+
+    print("\n***************************************************************\nSample Test Cases for Custom Math Functions\n")
 
     # Test the my_factorial function with a sample input
     test_value = 5
@@ -138,3 +142,40 @@ if __name__ == "__main__":
     print(f"Calculating square root for: {test_value_sqrt}")
     sqrt_result = my_sqrt(test_value_sqrt)
     print(f"Square root of {test_value_sqrt} = {sqrt_result}")
+
+    print("\n***************************************************************\n\n")
+
+    customTest=input("Want to continue with custom tests? (y/n):")
+    while customTest.lower()=='y':
+        print("\nSelect the function to test:")
+        print("1 for Factorial")
+        print("2 for Exponential")
+        print("3 for Logarithm")
+        print("4 for Square Root")
+        function_choice=input("Enter your choice (1/2/3/4):")
+        if function_choice=='1':
+            x=int(input("\nEnter a non-negative integer for factorial calculation:"))
+            try:
+                print(f"Factorial of {x} = {my_factorial(x)}\n")
+            except ValueError as e:
+                print(e)
+        elif function_choice=='2':
+            x=float(input("\nEnter a number for exponential calculation:"))
+            print(f"Exponential of {x} = {my_exponential(x)}\n")
+        elif function_choice=='3':
+            x=float(input("\nEnter a positive number for logarithm calculation:"))
+            try:
+                print(f"Natural logarithm of {x} = {my_logarithm(x)}\n")
+            except ValueError as e:
+                print(e)
+        elif function_choice=='4':
+            x=float(input("\nEnter a non-negative number for square root calculation:"))
+            try:
+                print(f"Square root of {x} = {my_sqrt(x)}\n")
+            except ValueError as e:
+                print(e)
+        else:
+            print("Invalid choice. Please select a valid option.\n")
+        customTest=input("\nWant to continue with custom tests? (y/n):")
+
+
