@@ -80,6 +80,33 @@ def my_logarithm(x):
     result = y
     return result
 
+
+def my_sqrt(x):
+    
+    """ compute the square root of x using Newton's iteration method. """
+    ''' sqrt(x) = y  such that y^2 = x '''
+
+    if x < 0:
+        raise ValueError("Square root is not defined for negative numbers.")
+    
+    tolerance = 1e-12
+
+    # Initial guess for sqrt(x)
+    s = x / 2.0 if x != 0 else 0.0
+
+    while True:
+        # Newton's iteration formula
+        s_new = 0.5 * (s + x / s) if s != 0 else 0.0
+
+        # Check for convergence
+        if abs(s_new - s) < tolerance:
+            break
+
+        s = s_new
+    
+    result = s
+    return result
+
 """
 =======================================================================================
                                 Test the functions
@@ -105,3 +132,9 @@ if __name__ == "__main__":
     print(f"Calculating logarithm for: {test_value_log}")
     logarithm_result = my_logarithm(test_value_log)
     print(f"Natural logarithm of {test_value_log} = {logarithm_result}")
+
+    # Test the my_sqrt function with a sample input
+    test_value_sqrt = 16.0
+    print(f"Calculating square root for: {test_value_sqrt}")
+    sqrt_result = my_sqrt(test_value_sqrt)
+    print(f"Square root of {test_value_sqrt} = {sqrt_result}")
