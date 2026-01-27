@@ -87,7 +87,10 @@ print("\n")
 #==============================================================================
 
 # Generate a Random List L of Length N
-N_values = [100, 200, 400, 800, 1600]
+N = 1000
+N_values = [N * (2 ** i) for i in range(5)]  # N, 2N, 4N, 8N, 16N
+print("N values for performance testing:", N_values)
+print("------------------------------------------------------------------------------------------------------------\n")
 
 for N in N_values:
     L = generate_random_list(N)
