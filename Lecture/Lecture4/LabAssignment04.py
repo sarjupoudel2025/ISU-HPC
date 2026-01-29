@@ -108,7 +108,7 @@ def my_logarithm(x):
     return result
 
 
-def my_sqrt(x, initial_guess=1.0, max_iterations=100):
+def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
     
     """ compute the square root of x using Newton's iteration method. """
     ''' sqrt(x) = y  such that y^2 = x '''
@@ -116,8 +116,6 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100):
     if x < 0:
         raise ValueError("Square root is not defined for negative numbers.")
     
-    tolerance = 1e-12
-
     # Initial guess for sqrt(x)
 
     s = initial_guess if x != 0 else 0.0
@@ -129,7 +127,7 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100):
 
         # Check for convergence
         if abs(s_new - s) < tolerance:
-            print(f"Converged (tolerance ) in {iteration} iterations.")
+            print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
             break
 
         s = s_new
