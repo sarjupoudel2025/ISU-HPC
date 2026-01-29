@@ -120,29 +120,40 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
     
     """ compute the square root of x using Newton's iteration method. """
     ''' sqrt(x) = y  such that y^2 = x '''
-
+    iteration = 0
     if x < 0:
         raise ValueError("Square root is not defined for negative numbers.")
     
-    # Initial guess for sqrt(x)
+    if x==0:
+        #Returing 0 for sqrt(0) to prevent starting loop
+        print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
+        s0=0.0
+        return s0
+    elif x==1:
+        #Returning 1 for sqrt(1) to prevent starting loop
+        print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
+        s0=1.0
+        return s0
+    else:
+        # Allowing only positive square roots so eliminating negative initial guesses
+        s0 = initial_guess if initial_guess > 0 else my_abs(x) / 2.0
 
-    s = initial_guess if x != 0 else 0.0
-
-    iteration = 0
-    while iteration < max_iterations:
+   
+    for iteration in range(max_iterations):
         # Newton's iteration formula
-        s_new = 0.5 * (s + x / s) if s != 0 else 0.0
+
+        # Checking if s is zero to avoid division by zero
+        s_new = s0 - (s0**2 - x) / (2 * s0)
 
         # Check for convergence
-        if my_abs(s_new - s) < tolerance:
+        if my_abs(s_new - s0)/my_abs(s0) < tolerance:
             print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
             break
-
-        s = s_new
-        iteration += 1
-        if iteration == max_iterations:
-            print("Warning: Maximum iterations reached without convergence.")
-    result = s
+        
+        s0 = s_new
+        if iteration == max_iterations - 1:
+            print(f"Warning: Maximum iterations {max_iterations} reached without convergence.")
+    result = s_new
     return result
 
 
@@ -154,5 +165,5 @@ if __name__ == "__main__":
     # Test my_sqrt function
     test_values = [0, 1, 4, 9, 9E58, 0.25]
     for val in test_values:
-        sqrt_val = my_sqrt(val, initial_guess=val)
+        sqrt_val = my_sqrt(val, initial_guess=-1)
         print(f"my_sqrt({val}) = {sqrt_val}, check: {sqrt_val**2}\n")
