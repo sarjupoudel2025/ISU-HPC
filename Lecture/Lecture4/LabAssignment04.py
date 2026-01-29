@@ -108,7 +108,7 @@ def my_logarithm(x):
     return result
 
 
-def my_sqrt(x):
+def my_sqrt(x, initial_guess=1.0):
     
     """ compute the square root of x using Newton's iteration method. """
     ''' sqrt(x) = y  such that y^2 = x '''
@@ -119,7 +119,8 @@ def my_sqrt(x):
     tolerance = 1e-12
 
     # Initial guess for sqrt(x)
-    s = x / 2.0 if x != 0 else 0.0
+
+    s = initial_guess if x != 0 else 0.0
 
     while True:
         # Newton's iteration formula
@@ -141,3 +142,13 @@ def my_abs(x):
     else:
         return x
 
+"""=======================================================================================
+                                 Test the functions
+======================================================================================="""
+
+if __name__ == "__main__":
+    # Test my_sqrt function
+    test_values = [0, 1, 4, 9, 16, 25, 2, 3, 10, 0.25, 0.5]
+    for val in test_values:
+        sqrt_val = my_sqrt(val)
+        print(f"my_sqrt({val}) = {sqrt_val}, check: {sqrt_val**2}")
