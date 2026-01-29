@@ -52,12 +52,12 @@ def my_factorial(n):
     return result
 
 
-def my_exponential(x):
+def my_exponential(x, max_iterations=1000,tolerance=1e-10):
 
     """ Compute the exponential of x using Taylor series expansion. """
     ''' e^x = 1 + x/1! + x^2/2! + x^3/3! + ... + x^n/n! + xi^(n+1)/(n+1)! '''
     ''' e^x = 1 + (1)*x/(1) + (1 * x)/(1) * (x)/(2) + (1 * x)/(1) * (x)/(2) * (x)/(3) + ... '''
-    tolerance = 1e-10
+   
 
     #first term of the exponential series
     term = 1.0
@@ -71,7 +71,9 @@ def my_exponential(x):
     #Checks if the absolute value of the term is small enough to stop
     #As loops proceeds and terms get smaller, if the computed terms is 
     #less than the tolerance, we stop the loop
-    while my_abs(term) > tolerance:
+    for iteration in range(max_iterations):
+        if my_abs(term) <= tolerance:
+            break
 
         # Compute the next term in the series
         term *= x / n  
@@ -81,12 +83,13 @@ def my_exponential(x):
 
         # Increment n for the next term
         n += 1
-
+        if iteration == max_iterations - 1:
+            print(f"Warning: Maximum iterations {max_iterations} for exponential reached without convergence.")
    
     return result
 
 
-def my_logarithm(x):
+def my_logarithm(x, tolerance=1e-12, max_iterations=1000):
 
     """ compute the natural logarithm of x using Newton's iteration method. """
     ''' ln(x) = y  such that e^y = x '''
@@ -94,12 +97,10 @@ def my_logarithm(x):
     if x <= 0:
         raise ValueError("Logarithm is not defined for zero or negative numbers.")
     
-    tolerance = 1e-12
-
     # Initial guess for ln(x)
     y = x - 1.0
 
-    while True:
+    for iteration in range(max_iterations):
         # Compute e^y using the my_exponential function
         exp_y = my_exponential(y)
 
@@ -111,7 +112,8 @@ def my_logarithm(x):
             break
 
         y = y_new
-    
+        if iteration == max_iterations - 1:
+            print(f"Warning: Maximum iterations {max_iterations} for logarithm reached without convergence.")
     result = y
     return result
 
@@ -149,10 +151,10 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
         if my_abs(s_new - s0)/my_abs(s0) < tolerance:
             print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
             break
-        
+
         s0 = s_new
         if iteration == max_iterations - 1:
-            print(f"Warning: Maximum iterations {max_iterations} reached without convergence.")
+            print(f"Warning: Maximum iterations {max_iterations} for square root reached without convergence.")
     result = s_new
     return result
 
@@ -167,3 +169,18 @@ if __name__ == "__main__":
     for val in test_values:
         sqrt_val = my_sqrt(val, initial_guess=-1)
         print(f"my_sqrt({val}) = {sqrt_val}, check: {sqrt_val**2}\n")
+    
+    print("\n************************************************************************************")
+
+    #Test my_exponential function
+    test_values_exp = [0, 1, -1, 10, -10, 20]
+    for val in test_values_exp:
+        exp_val = my_exponential(val)
+        print(f"my_exponential({val}) = {exp_val}, check: {exp_val/my_exponential(0)}\n")
+    
+    #Test my_logarithm function
+    print("\n************************************************************************************")
+    test_values_log = [1, 2.718281828459045, 7.38905609893065, 20, 0.5]
+    for val in test_values_log:
+        log_val = my_logarithm(val)
+        print(f"my_logarithm({val}) = {log_val}, check: {my_exponential(log_val)}\n")

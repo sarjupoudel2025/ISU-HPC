@@ -17,7 +17,7 @@ def my_factorial(n):
     return result
 
 
-def my_exponential(x):
+def my_exponential(x,):
 
     """ Compute the exponential of x using Taylor series expansion. """
     ''' e^x = 1 + x/1! + x^2/2! + x^3/3! + ... + x^n/n! + xi^(n+1)/(n+1)! '''
