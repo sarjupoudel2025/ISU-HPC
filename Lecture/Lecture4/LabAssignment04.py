@@ -29,6 +29,14 @@ yold = y
 told = told + h
 """
 
+
+def my_abs(x):
+    """Compute the absolute value of x."""
+    if x < 0:
+        return -x
+    else:
+        return x
+
 def my_factorial(n):
     """Compute the factorial of a non-negative integer n."""
     if n < 0:
@@ -63,7 +71,7 @@ def my_exponential(x):
     #Checks if the absolute value of the term is small enough to stop
     #As loops proceeds and terms get smaller, if the computed terms is 
     #less than the tolerance, we stop the loop
-    while abs(term) > tolerance:
+    while my_abs(term) > tolerance:
 
         # Compute the next term in the series
         term *= x / n  
@@ -99,7 +107,7 @@ def my_logarithm(x):
         y_new = y - (exp_y - x) / exp_y
 
         # Check for convergence
-        if abs(y_new - y) < tolerance:
+        if my_abs(y_new - y) < tolerance:
             break
 
         y = y_new
@@ -126,7 +134,7 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
         s_new = 0.5 * (s + x / s) if s != 0 else 0.0
 
         # Check for convergence
-        if abs(s_new - s) < tolerance:
+        if my_abs(s_new - s) < tolerance:
             print(f"Converged (tolerance: {tolerance}) in {iteration} iterations.")
             break
 
@@ -137,12 +145,6 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
     result = s
     return result
 
-def my_abs(x):
-    """Compute the absolute value of x."""
-    if x < 0:
-        return -x
-    else:
-        return x
 
 """=======================================================================================
                                  Test the functions
