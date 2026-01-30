@@ -158,12 +158,78 @@ def my_sqrt(x, initial_guess=1.0, max_iterations=100, tolerance=1e-12):
     result = s_new
     return result
 
+# Defining the main Population function to compare the numerical and exact solutions
+
+#Exact solution for population model
+def population_model_exact(t, P0, r, K):
+    P_t = K / (1 + ((K - P0) / P0) * my_exponential(-r * t))
+    return P_t
+
+#Numerical solution for population model using Euler's method
+def population_model_numerical(P0, r, K, T, n, exact_solution):
+    """ Numerical solution of the population model using Euler's method. 
+    dP/dt = r * P * (1 - P / K)
+    P(0) = P0
+    T: total time; the time "t" shown in P(t) function 
+    N: number of steps
+    r: growth rate
+    K: carrying capacity"""
+    h = T / n  # Step size
+
+    # t is time step variable for euler's method
+    # This is smaller time step then actual time T which is a Time point at which we want to evaluate P(t)
+    dt = 0.0
+    P = P0
+
+    #Constanct Multiplier of convergence check of numerical solution
+    c2 = 1
+    
+    ntin = 0
+    for ntin in range(n):
+
+        #(f(t, P) = dPdt = r * P * (1 - P / K))
+
+        dPdt = r * P * (1 - P / K) 
+        P = P + h * dPdt
+        dt = dt + h
+
+        # Check if we converged to exact solution
+        if my_abs(P - exact_solution) < c2*h:
+            #print(f"Converged to exact solution (c2*h = {c2}*{h}) in {ntin+1} Euler iterations.")
+            break
+
+    return P , ntin+1
+
+def plot_population_model(time_points, exact_solutions, numerical_solutions, K, ES_Closest_to_Kby2=None, T_at_ES_Kby2=None, NS_Closest_to_Kby2=None, T_at_NS_Kby2=None):
+    """Plot the exact and numerical solutions of the population model."""
+    import matplotlib.pyplot as plt
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(time_points, exact_solutions, label='Exact Solution', color='blue', linewidth=2)
+    plt.plot(time_points, numerical_solutions, label='Numerical Solution', color='red', linestyle='--', linewidth=2)
+
+    if ES_Closest_to_Kby2 is not None and T_at_ES_Kby2 is not None:
+        plt.scatter([T_at_ES_Kby2], [ES_Closest_to_Kby2], color='blue', s=100, zorder=5,
+                    label=f'Exact Solution = {ES_Closest_to_Kby2} closest to K/2 ={K/2} at T={T_at_ES_Kby2:.2f}')
+    if NS_Closest_to_Kby2 is not None and T_at_NS_Kby2 is not None:
+        plt.scatter([T_at_NS_Kby2], [NS_Closest_to_Kby2], color='red', s=100, zorder=5,
+                    label=f'Numerical Solution = {NS_Closest_to_Kby2} closest to K/2 = {K/2} at T={T_at_NS_Kby2:.2f}')
+    plt.xlabel('Time')
+    plt.ylabel('Population P(t)')
+    plt.title('Population Model: Exact vs Numerical Solution')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+
 
 """=======================================================================================
                                  Test the functions
 ======================================================================================="""
 
 if __name__ == "__main__":
+
+    '''
     # Test my_sqrt function
     test_values = [0, 1, 4, 9, 9E58, 0.25]
     for val in test_values:
@@ -184,3 +250,66 @@ if __name__ == "__main__":
     for val in test_values_log:
         log_val = my_logarithm(val)
         print(f"my_logarithm({val}) = {log_val}, check: {my_exponential(log_val)}\n")
+
+    print("\n************************************************************************************")
+
+    '''
+    #Test population model functions
+
+    P0 = 10  # Initial population
+    r = 0.5  # Growth rate
+    K = 100  # Carrying capacity
+    Tmin = 0
+    Tmax = 20  # Total time  
+    N = 5000  #Number of steps through Time
+    n = 25 #Number of steps for numerical solution
+
+    #Time step H at which we want to evaluate P(t)
+    H = (Tmax - Tmin) / N
+    T = Tmin
+    C1 =1   #Constant multiplier for convergence check of Population model
+
+    #Values for plotting Population model solutions
+    exact_solutions = []
+    numerical_solutions = []
+    time_points = []
+
+    #Values at which population reaches K/2
+    exact_solution_0pt5K_at_T = 0.0
+    exact_solution_closest_to_0pt5k =0.0
+    numerical_solution_0pt5K_at_T = 0.0
+    numerical_solution_closest_to_0pt5k =0.0
+    both_solutions_0pt5K_at_T = 0.0
+    for _ in range(N): 
+        exact_solution = population_model_exact(T, P0, r, K)
+        #print(f"Exact Solution at T={T}: {exact_solution}")
+        numerical_solution, ntin = population_model_numerical(P0, r, K, T, n, exact_solution)
+        #print(f"Numerical Solution at T={T} with {ntin} Euler's steps: {numerical_solution}\n")
+
+        #Check if solution approached carrying capacity K/2
+        #No break's in any if to continue checking for all T values
+
+        if my_abs(exact_solution - K / 2) < C1*H:
+            exact_solution_0pt5K_at_T = T
+            exact_solution_closest_to_0pt5k = exact_solution
+        elif my_abs(exact_solution - K / 2) < my_abs(exact_solution_closest_to_0pt5k - K/2):
+            exact_solution_closest_to_0pt5k = exact_solution
+            exact_solution_0pt5K_at_T = T
+        
+        if my_abs(numerical_solution - K / 2) < C1*H:
+            numerical_solution_0pt5K_at_T = T
+            numerical_solution_closest_to_0pt5k = numerical_solution
+        elif my_abs(numerical_solution - K / 2) < my_abs(numerical_solution_closest_to_0pt5k - K/2):
+            numerical_solution_closest_to_0pt5k = numerical_solution
+            numerical_solution_0pt5K_at_T = T
+
+            
+        exact_solutions.append(exact_solution)
+        numerical_solutions.append(numerical_solution)
+        time_points.append(T)
+        T = T + H
+    print("\n************************************************************************************")
+    print(f"Exact solution closest to K/2={K/2} is {exact_solution_closest_to_0pt5k} at T={exact_solution_0pt5K_at_T}")
+    print(f"Numerical solution closest to K/2={K/2} is {numerical_solution_closest_to_0pt5k} at T={numerical_solution_0pt5K_at_T}") 
+
+    plot_population_model(time_points, exact_solutions, numerical_solutions, K, exact_solution_closest_to_0pt5k, exact_solution_0pt5K_at_T, numerical_solution_closest_to_0pt5k, numerical_solution_0pt5K_at_T)
