@@ -200,7 +200,7 @@ def population_model_numerical(P0, r, K, T, n, exact_solution):
 
     return P , ntin+1
 
-def plot_population_model(time_points, exact_solutions, numerical_solutions, K, ES_Closest_to_Kby2=None, T_at_ES_Kby2=None, NS_Closest_to_Kby2=None, T_at_NS_Kby2=None):
+def plot_population_model(time_points, exact_solutions, numerical_solutions, K, ES_Closest_to_Kby2=None, T_at_ES_Kby2=None, NS_Closest_to_Kby2=None, T_at_NS_Kby2=None, ntin=None, n=None):
     """Plot the exact and numerical solutions of the population model."""
     import matplotlib.pyplot as plt
 
@@ -213,7 +213,7 @@ def plot_population_model(time_points, exact_solutions, numerical_solutions, K, 
                     label=f'Exact Solution = {ES_Closest_to_Kby2} closest to K/2 ={K/2} at T={T_at_ES_Kby2:.2f}')
     if NS_Closest_to_Kby2 is not None and T_at_NS_Kby2 is not None:
         plt.scatter([T_at_NS_Kby2], [NS_Closest_to_Kby2], color='red', s=100, zorder=5,
-                    label=f'Numerical Solution = {NS_Closest_to_Kby2} closest to K/2 = {K/2} at T={T_at_NS_Kby2:.2f}')
+                    label=f'Numerical Solution = {NS_Closest_to_Kby2} closest to K/2 = {K/2} at T={T_at_NS_Kby2:.2f}\n used {ntin}/{n} Euler steps')
     plt.xlabel('Time')
     plt.ylabel('Population P(t)')
     plt.title('Population Model: Exact vs Numerical Solution')
@@ -280,6 +280,7 @@ if __name__ == "__main__":
     numerical_solution_0pt5K_at_T = 0.0
     numerical_solution_closest_to_0pt5k =0.0
     both_solutions_0pt5K_at_T = 0.0
+    ntin=0
     for _ in range(N): 
         exact_solution = population_model_exact(T, P0, r, K)
         #print(f"Exact Solution at T={T}: {exact_solution}")
@@ -310,6 +311,5 @@ if __name__ == "__main__":
         T = T + H
     print("\n************************************************************************************")
     print(f"Exact solution closest to K/2={K/2} is {exact_solution_closest_to_0pt5k} at T={exact_solution_0pt5K_at_T}")
-    print(f"Numerical solution closest to K/2={K/2} is {numerical_solution_closest_to_0pt5k} at T={numerical_solution_0pt5K_at_T}") 
-
-    plot_population_model(time_points, exact_solutions, numerical_solutions, K, exact_solution_closest_to_0pt5k, exact_solution_0pt5K_at_T, numerical_solution_closest_to_0pt5k, numerical_solution_0pt5K_at_T)
+    print(f"Numerical solution closest to K/2={K/2} is {numerical_solution_closest_to_0pt5k} at T={numerical_solution_0pt5K_at_T} used {ntin}/{n} Euler's steps\n") 
+    plot_population_model(time_points, exact_solutions, numerical_solutions, K, exact_solution_closest_to_0pt5k, exact_solution_0pt5K_at_T, numerical_solution_closest_to_0pt5k, numerical_solution_0pt5K_at_T,ntin,n)
