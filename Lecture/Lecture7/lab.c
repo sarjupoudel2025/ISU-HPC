@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<math.h>
 /* Develop a script ("main program") with name lab.c: computing factorial of an integer n,
 exponentials of a real number x, and logarithm of a real number y
 
@@ -24,7 +25,7 @@ double my_c_exponential(double x) {
 
     int n = 1; // Denominator of second term (x) is 1.  i.e. n (x^n / n!)
 
-    while (term > tolerance) {
+    while (fabsl(term) > tolerance) {
         term *= x / n; // Calculate the next term
         sum += term; // Add the next term to the sum
         n++; // Move to the next term index
