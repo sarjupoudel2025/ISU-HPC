@@ -125,6 +125,8 @@ int main(){
         }
     }
 
+    printf("You Entered the Bounds of x: [%.2lf, %.2lf]\n", LowerBound_x, UpperBound_x);
+
     int num_points=-1;
     while (num_points <= 0) {
         printf("Enter the no. of points to evaluate: \n");
