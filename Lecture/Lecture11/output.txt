@@ -1,0 +1,6 @@
+Polynomial 1: 3x^5 + 2x^2 + 1x^0 
+Polynomial 2: 5x^4 + 4x^2 + 3x^0 
+Sum of Polynomials: 3x^5 + 5x^4 + 6x^2 + 4x^0 
+Evaluation of Polynomial 1 at x=2.000000: 105.000000
+Evaluation of Polynomial 2 at x=2.000000: 99.000000
+Evaluation of Sum at x=2.000000: 204.000000
