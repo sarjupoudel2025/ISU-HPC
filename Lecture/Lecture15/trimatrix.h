@@ -44,6 +44,6 @@ trimatrix merge_sub_trimatrix(trimatrix* T1, trimatrix* T2);
 trimatrix matrix_mult_to_trimatrix(const matrix* A, const matrix* B);
 
 
-void Hessenberg(const matrix* Ain, trimatrix* T);
-void QRA(trimatrix* T);
+void Hessenberg(const matrix* A, trimatrix* H);
+void QRA(trimatrix* H);
 #endif

@@ -5,7 +5,7 @@
 #include "matrix.h"
 #include "trimatrix.h"
 
-const double Math_PI = 3.14159265358979323846;
+
 
 
 int main()
