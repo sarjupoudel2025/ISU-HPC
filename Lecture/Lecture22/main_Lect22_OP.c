@@ -1,16 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 #include <time.h>
+#include <omp.h>
 
-int main() {
-    long long int total_points = 10000000000;
+int main(int argc, char *argv[]) {
+
+    if (argc != 3) {
+        printf("Usage: %s <threads> <total_points>\n", argv[0]);
+        return 1;
+    }
+
+    int num_threads = atoi(argv[1]);
+    long long int total_points = atoll(argv[2]);
+
     long long int inside_circle = 0;
 
-    //omp_set_num_threads(10);
+    omp_set_num_threads(num_threads);
+
     #pragma omp parallel
     {
         unsigned int seed = time(NULL) ^ omp_get_thread_num();
@@ -31,6 +37,8 @@ int main() {
     }
 
     double pi = 4.0 * inside_circle / total_points;
+    printf("Threads = %d\n", num_threads);
+    printf("Total points = %lld\n", total_points);
     printf("Estimated PI = %.10f\n", pi);
 
     return 0;
