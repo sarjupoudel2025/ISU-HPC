@@ -25,6 +25,9 @@ pi_MPI: main_Lect22_MPI.c
 run_op: pi_OP
 	./pi_OP 6 10000000000
 	./pi_OP 12 10000000000
+	./pi_OP 24 10000000000
+	./pi_OP 32 10000000000
+	./pi_OP 64 10000000000
 	
 
 # ----------------------
@@ -32,6 +35,11 @@ run_op: pi_OP
 # ----------------------
 run_mpi: pi_MPI
 	mpirun -np 6 ./pi_MPI 10000000000
+	mpirun -np 12 ./pi_MPI 10000000000
+	mpirun -np 24 ./pi_MPI 10000000000
+	mpirun -np 32 ./pi_MPI 10000000000
+
+
 
 #Run Both
 run_all: run_op run_mpi

@@ -17,6 +17,8 @@ int main(int argc, char *argv[]) {
 
     omp_set_num_threads(num_threads);
 
+    double start_time = omp_get_wtime();
+
     #pragma omp parallel
     {
         unsigned int seed = time(NULL) ^ omp_get_thread_num();
@@ -36,10 +38,15 @@ int main(int argc, char *argv[]) {
         inside_circle += local_count;
     }
 
+    double end_time = omp_get_wtime();
+    double wall_time = end_time - start_time;
+
     double pi = 4.0 * inside_circle / total_points;
-    printf("Threads = %d\n", num_threads);
-    printf("Total points = %lld\n", total_points);
-    printf("Estimated PI = %.10f\n", pi);
+
+    printf("Threads used     : %d\n", num_threads);
+    printf("Total N          : %lld\n", total_points);
+    printf("Estimated PI     : %.10f\n", pi);
+    printf("Wall time (sec)  : %f\n", wall_time);
 
     return 0;
 }
