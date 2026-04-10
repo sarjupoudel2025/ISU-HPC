@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef USE_MPI
-#include <mpi.h>
+#ifdef _OPENMP
+#include <omp.h>
 #endif
 
 #include <time.h>

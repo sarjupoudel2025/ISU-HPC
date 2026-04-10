@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <mpi.h>
 #include <time.h>
+#include <mpi.h>
 
 int main(int argc, char *argv[]) {
     int rank, size;
@@ -10,21 +10,26 @@ int main(int argc, char *argv[]) {
 
     MPI_Init(&argc, &argv);
 
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank); // process ID
-    MPI_Comm_size(MPI_COMM_WORLD, &size); // number of processes
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // Root takes input
-    if (rank == 0) {
-        printf("Enter total number of points: ");
-        scanf("%lld", &N);
+    
+    if (argc != 2) {
+        if (rank == 0) {
+            printf("Usage: mpirun -np <p> ./program <N>\n");
+        }
+        MPI_Finalize();
+        return 0;
     }
 
-    // Broadcast N to all processes
+    if (rank == 0) {
+        N = atoll(argv[1]);
+    }
+
     MPI_Bcast(&N, 1, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
     long long int local_points = N / size;
 
-    // Unique seed per process
     unsigned int seed = time(NULL) + rank;
 
     for (long long int i = 0; i < local_points; i++) {
@@ -36,7 +41,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Reduce all local counts into global count at root
     MPI_Reduce(&local_count, &global_count, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
