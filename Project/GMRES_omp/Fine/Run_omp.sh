@@ -1,10 +1,11 @@
 #!/bin/bash
 
 #SBATCH --nodes=2
-#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=64
 #SBATCH --time=0-8:0:0
 #SBATCH --qos=instruction
-#SBATCH --job-name="2D_Fluid_MPI_GMRES"
+#SBATCH --job-name="2D_Fluid_OMP_GMRES"
 #SBATCH --output="log.out"
 #SBATCH --error="error.out"
 #SBATCH --partition=instruction
@@ -25,15 +26,16 @@ make
 # -------------------------------
 # Executable
 # -------------------------------
-EXE=./solve_mpi
+EXE=./solve_omp
 
 # -------------------------------
-# Strong scaling (high → low)
+# OpenMP scaling test
 # -------------------------------
-for cores in 64 32 16 8 4 2 1; do
+for threads in 64 32 16 8 4 2 1; do
     echo "===================================="
-    echo "Running with $cores MPI ranks"
+    echo "Running with $threads OpenMP threads"
     echo "===================================="
 
-    srun -n $cores $EXE
+    export OMP_NUM_THREADS=$threads
+    $EXE $threads
 done
