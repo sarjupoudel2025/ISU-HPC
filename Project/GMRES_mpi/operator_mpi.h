@@ -13,7 +13,7 @@ void apply_operator_mpi(const double *x,
                         MPIMesh *mesh);
 
 /* ======================================================
-   TIMING INTERFACE (same style as serial code)
+   TIMING INTERFACE 
    ====================================================== */
 void operator_timing_reset(void);
 

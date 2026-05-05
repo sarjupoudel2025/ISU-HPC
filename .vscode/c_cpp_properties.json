@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/lib/x86_64-linux-gnu/mpich/include",
+                "/usr/lib/x86_64-linux-gnu/openmpi/include"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerPath": "/usr/lib/x86_64-linux-gnu/openmpi/include/mpi.h"
+        }
+    ],
+    "version": 4
+}

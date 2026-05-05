@@ -6,7 +6,7 @@
 #include "operator_mpi.h"
 
 /* ======================================================
-   GMRES PARAMETERS (same as your serial solver.h)
+   GMRES PARAMETERS 
    ====================================================== */
 typedef struct {
     int max_iter;   /* maximum iterations */
