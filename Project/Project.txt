@@ -1,0 +1,7 @@
+This project is used to solve the 2D flow through a pipe. 
+It utilizes Open MP to run parallel processing and compare it with the single processing.
+First a 2D geometry (rectangular) is created. Then mesh is created having sufficient points
+that justifies use of parallel processing.
+Several functions are used to solve for flow.
+The functions are called as in single processor and then later called using open mp.
+MPI is also going to be utilized later to test in the HPC cluster.

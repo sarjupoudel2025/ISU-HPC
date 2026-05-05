@@ -1,0 +1,36 @@
+# -------------------------------
+# GRID PARAMETERS
+# -------------------------------
+nx = 75        # number of grid points in x-direction (streamwise)
+ny = 50        # number of grid points in y-direction (wall-normal)
+
+lx = 1.5       # physical length of the domain (pipe length)
+ly = 1.0       # physical height of the domain (pipe height)
+
+# -------------------------------
+# SOLVER PARAMETERS (GMRES / PRESSURE POISSON)
+# -------------------------------
+max_iter = 2000      # maximum GMRES iterations per pressure solve
+tolerance = 1e-4     # convergence tolerance for GMRES residual
+
+# -------------------------------
+# CFD PHYSICAL PARAMETERS
+# -------------------------------
+viscosity = 0.05     # kinematic viscosity ν (controls diffusion strength)
+rho = 1.0            # fluid density (used for pressure scaling, optional in current code)
+
+# Pressure forcing (currently not fully used in projection step yet)
+dp = 0.1             # reference pressure difference (inlet - outlet driving scale)
+
+# -------------------------------
+# TIME PARAMETERS (PROJECTION NAVIER–STOKES)
+# -------------------------------
+dt = 0.00001         # time step (IMPORTANT: controls stability / CFL condition)
+NT = 7500             # number of time steps in simulation (enough for a stable demo run) #0.2 sec.
+
+# VTK output control
+# Set to 1 to enable writing VTK files (visualization). Set to 0 to disable VTK I/O.
+vtk_enable = 0       # 1 = enable VTK output, 0 = disable
+
+# time steps to output VTK files (only used if vtk_enable = 1)
+output_every = 25    # write a VTK file every N steps
