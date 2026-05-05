@@ -1,8 +1,8 @@
 # -------------------------------
 # GRID PARAMETERS
 # -------------------------------
-nx = 1536        # number of grid points in x-direction (streamwise)
-ny = 1024        # number of grid points in y-direction (wall-normal)
+nx = 75        # number of grid points in x-direction (streamwise)
+ny = 50        # number of grid points in y-direction (wall-normal)
 
 lx = 1.5       # physical length of the domain (pipe length)
 ly = 1.0       # physical height of the domain (pipe height)
@@ -10,7 +10,7 @@ ly = 1.0       # physical height of the domain (pipe height)
 # -------------------------------
 # SOLVER PARAMETERS (GMRES / PRESSURE POISSON)
 # -------------------------------
-max_iter = 250      # maximum GMRES iterations per pressure solve
+max_iter = 2000      # maximum GMRES iterations per pressure solve
 tolerance = 1e-4     # convergence tolerance for GMRES residual
 
 # -------------------------------
