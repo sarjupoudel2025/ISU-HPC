@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=32
-#SBATCH --time=0-0:30:0
+#SBATCH --time=0-8:0:0
 #SBATCH --qos=instruction
 #SBATCH --job-name="2D_Fluid_MPI_GMRES"
 #SBATCH --output="log.out"
