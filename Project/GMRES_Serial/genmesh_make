@@ -24,9 +24,9 @@ $(TARGET): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean build files
+# Clean EVERYTHING (build + output)
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) mesh.vtk
 
 # Phony targets
 .PHONY: all clean
