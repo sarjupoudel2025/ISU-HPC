@@ -27,8 +27,13 @@ int main(int argc, char *argv[]) {
     Mesh *mesh = create_mesh(params.nx, params.ny,
                              params.lx, params.ly);
 
+    if (!mesh) {
+        printf("Mesh creation failed\n");
+        return 1;
+    }
+
     printf("Mesh created:\n");
-    printf("nx = %d, ny = %d\n", mesh->nx, mesh->ny);
+    printf("nx = %d, ny = %d\n", mesh->nx_global, mesh->ny_global);
     printf("dx = %f, dy = %f\n", mesh->dx, mesh->dy);
 
     // -------------------------------
@@ -36,19 +41,25 @@ int main(int argc, char *argv[]) {
     // -------------------------------
     Field *field = create_field(mesh);
 
+    if (!field) {
+        printf("Field allocation failed\n");
+        free_mesh(mesh);
+        return 1;
+    }
+
     // -------------------------------
     // 4. Initialize field (test case)
     // -------------------------------
-    for (int j = 0; j < mesh->ny; j++) {
-        for (int i = 0; i < mesh->nx; i++) {
+    for (int j = 0; j < mesh->ny_global; j++) {
+        for (int i = 0; i < mesh->nx_global; i++) {
 
-            int id = IDX(i, j, mesh->nx);
+            int id = IDX(i, j, mesh->nx_global);
 
-            // Simple function for visualization
-            field->phi[id] = mesh->x[i] * mesh->y[j];
-
-            // RHS (for later solver use)
-            field->rhs[id] = 1.0;
+            // Simple synthetic CFD-like field
+            field->u[id] = mesh->x[i];
+            field->v[id] = mesh->y[j];
+            field->p[id] = mesh->x[i] * mesh->y[j];
+            field->wss[id] = 0.0;
         }
     }
 
