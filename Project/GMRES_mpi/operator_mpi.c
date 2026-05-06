@@ -87,12 +87,12 @@ void apply_operator_mpi(const double *x,
     for (int j = 0; j < ny; j++) {
 
         /* left physical boundary */
-        if (mesh->rank_left == -1) {
+        if (mesh->rank_left == MPI_PROC_NULL) {
             y[IDX(0, j, ny)] = x[IDX(0, j, ny)];
         }
 
         /* right physical boundary */
-        if (mesh->rank_right == -1) {
+        if (mesh->rank_right == MPI_PROC_NULL) {
             y[IDX(nx-1, j, ny)] = x[IDX(nx-1, j, ny)];
         }
     }

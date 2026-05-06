@@ -8,7 +8,7 @@
 #include "utils_mpi.h"
 #include "vtk_mpi.h"
 
-int GMRES_Residual_Plot = 0;  /* Set to 1 to enable residual output for plotting */
+int GMRES_Residual_Plot = 1;  /* Set to 1 to enable residual output for plotting */
 
 void exchange_all(Simulation *sim)
 {
@@ -64,8 +64,7 @@ void apply_bc_predictor_mpi(Simulation *sim)
     }
 
     /* -----------------------------------
-       WALLS (apply on ALL ranks)
-       because y is NOT decomposed
+       WALLS
        ----------------------------------- */
     for (int i = 0; i < nx; i++) {
 
@@ -87,7 +86,6 @@ void apply_bc_predictor_mpi(Simulation *sim)
 
 // =======================================================
 // BOUNDARY CONDITIONS (CORRECTOR STEP)
-// ONLY NON-INLET CONSISTENT BCs
 // =======================================================
 
 void apply_bc_corrector_mpi(Simulation *sim)
@@ -296,7 +294,7 @@ int solve_pressure_mpi(Simulation *sim, int step)
     gmres_solve_mpi(sim->p, sim->b, m, sim->gmres, step, m->comm  );
 
     /* -----------------------------------
-       Re-impose Dirichlet pressure profile
+       Dirichlet pressure profile
        ----------------------------------- */
     for (int i = 0; i < nx; i++) {
 

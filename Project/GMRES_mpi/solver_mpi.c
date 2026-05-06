@@ -19,6 +19,16 @@
 static double gmres_total_seconds = 0.0;
 static int gmres_calls = 0;
 
+static inline int i_owned_start(const MPIMesh *mesh)
+{
+    return (mesh->rank_left == MPI_PROC_NULL) ? 0 : 1;
+}
+
+static inline int i_owned_end(const MPIMesh *mesh)
+{
+    return (mesh->rank_right == MPI_PROC_NULL) ? (mesh->nx_local - 1) : (mesh->nx_local - 2);
+}
+
 
 int gmres_solve_mpi(double *x,
                     const double *b,
@@ -37,6 +47,8 @@ int gmres_solve_mpi(double *x,
     int nx = mesh->nx_local;
     int ny = mesh->ny_local;
     int N  = nx * ny;
+    int i_start = i_owned_start(mesh);
+    int i_end = i_owned_end(mesh);
 
     double *r  = calloc(N, sizeof(double));
     double *p  = calloc(N, sizeof(double));
@@ -57,7 +69,13 @@ int gmres_solve_mpi(double *x,
 
     for (int i = 0; i < N; i++) {
         r[i] = b[i] - r[i];
-        r0_local += r[i] * r[i];
+    }
+
+    for (int i = i_start; i <= i_end; i++) {
+        for (int j = 0; j < ny; j++) {
+            int id = i * ny + j;
+            r0_local += r[id] * r[id];
+        }
     }
 
     MPI_Allreduce(&r0_local, &r0, 1, MPI_DOUBLE, MPI_SUM, comm);
@@ -106,8 +124,12 @@ int gmres_solve_mpi(double *x,
         /* --- compute dot product p·Ap --- */
         double denom_local = 0.0, denom;
 
-        for (int i = 0; i < N; i++)
-            denom_local += p[i] * Ap[i];
+        for (int i = i_start; i <= i_end; i++) {
+            for (int j = 0; j < ny; j++) {
+                int id = i * ny + j;
+                denom_local += p[id] * Ap[id];
+            }
+        }
 
         MPI_Allreduce(&denom_local, &denom, 1, MPI_DOUBLE, MPI_SUM, comm);
 
@@ -121,11 +143,11 @@ int gmres_solve_mpi(double *x,
 
         double alpha = rsold / denom;
 
-        /* --- update solution and residual (INTERIOR ONLY) --- */
+        /* --- update solution and residual on owned physical cells --- */
         double rsnew_local = 0.0, rsnew;
 
-        for (int i = 1; i < nx - 1; i++) {
-            for (int j = 1; j < ny - 1; j++) {
+        for (int i = i_start; i <= i_end; i++) {
+            for (int j = 0; j < ny; j++) {
 
                 int id = i * ny + j;
 
@@ -145,22 +167,30 @@ int gmres_solve_mpi(double *x,
             fprintf(residual_fp, "%d %.16e %.16e\n", iter + 1, rsnew, rel);
         }
 
-        if (rank == 0 && iter % 50 == 0)
-             //printf("GMRES iter %d | rel residual = %.3e\n", iter, rel);
+           if (rank == 0 && iter % 50 == 0) {
+               // printf("GMRES iter %d | rel residual = %.3e\n", iter, rel);
+           }
 
         /* --- convergence check --- */
         if (rel < params.tol) {
             // if (rank == 0)
-                 printf("✔ GMRES converged in %d iterations\n", iter);
-            if (residual_fp) fclose(residual_fp);
+                // printf("✔ GMRES converged in %d iterations\n", iter);
+            if (residual_fp) {
+                fclose(residual_fp);
+                residual_fp = NULL;
+            }
             break;
         }
 
         /* --- update search direction --- */
         double beta = (rsold > 1e-14) ? (rsnew * rsnew / rsold) : 0.0;
 
-        for (int i = 0; i < N; i++)
-            p[i] = r[i] + beta * p[i];
+        for (int i = i_start; i <= i_end; i++) {
+            for (int j = 0; j < ny; j++) {
+                int id = i * ny + j;
+                p[id] = r[id] + beta * p[id];
+            }
+        }
 
         rsold = rsnew * rsnew;
 

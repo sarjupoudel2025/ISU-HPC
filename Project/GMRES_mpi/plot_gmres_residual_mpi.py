@@ -11,7 +11,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_SELECTED_STEPS = [0]#, 25, 50, 100]
+DEFAULT_SELECTED_STEPS = [25, 50, 100]
 
 FILE_RE = re.compile(r"gmres_residual_(\d{4})\.dat$")
 
@@ -116,7 +116,7 @@ def plot_selected(steps: list[int] | tuple[int, ...] | np.ndarray | None, residu
     plt.legend()
     plt.tight_layout()
     plt.savefig(abs_out, dpi=200)
-    plt.close()
+    #plt.close()
 
     plt.figure(figsize=(9, 6))
     for step, iterations, relative in rel_series:
@@ -128,7 +128,9 @@ def plot_selected(steps: list[int] | tuple[int, ...] | np.ndarray | None, residu
     plt.legend()
     plt.tight_layout()
     plt.savefig(rel_out, dpi=200)
+    plt.show()
     plt.close()
+    
 
     print(f"Wrote {abs_out.name} and {rel_out.name}")
 
@@ -179,6 +181,7 @@ def main() -> None:
         plot_all(residual_dir)
     else:
         plot_selected(steps, residual_dir)
+        
 
 
 if __name__ == "__main__":
