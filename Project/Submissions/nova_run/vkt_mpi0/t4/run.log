@@ -1,0 +1,24 @@
+
+======================================
+MPI INITIALIZATION COMPLETE
+======================================
+Ranks        : 4
+Global grid  : 1536 x 1024
+Local grid   : 386 x 1024
+Domain size  : 1.500000 x 1.000000
+dx, dy       : 0.000977, 0.000978
+dt, NT       : 1.000000e-05, 7500
+GMRES        : max_iter=250 tol=1.000000e-04
+======================================
+
+MPI run summary
+Ranks        : 4
+Global grid  : 1536 x 1024
+Local grid   : 386 x 1024
+Domain size  : 1.500000 x 1.000000
+dx, dy       : 0.000977, 0.000978
+dt, NT       : 1.000000e-05, 7500
+GMRES        : max_iter=250 tol=1.000000e-04
+Total runtime : 4898.442311 s
+Operator total : 2150.140353 s (1882500 calls)
+GMRES total : 4825.807048 s (7500 calls)

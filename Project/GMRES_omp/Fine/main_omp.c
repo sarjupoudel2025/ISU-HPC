@@ -27,7 +27,7 @@ static char vtk_dir[160]  = "omp_vtk/t1";
 static char postpro_file[200] = "omp_vtk/t1/postpro_omp.out";
 static char log_file[200] = "omp_vtk/t1/run.log";
 static FILE *run_log = NULL;
-int GMRES_Residual_Plot = 1; /* Set to 1 to enable residual output for plotting */
+int GMRES_Residual_Plot = 0; /* Set to 1 to enable residual output for plotting */
 
 static Mesh *mesh;
 static Field *field;
