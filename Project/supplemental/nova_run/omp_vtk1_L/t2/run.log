@@ -1,0 +1,22 @@
+Using 2 OpenMP threads
+
+======================================
+INITIALIZATION COMPLETE
+======================================
+Global grid  : 1536 x 1024
+Domain size  : 1.500000 x 1.000000
+dx, dy       : 0.000977, 0.000978
+dt, NT       : 1.000000e-05, 7500
+GMRES        : max_iter=2000 tol=1.000000e-04
+======================================
+
+OpenMP run summary
+Threads      : 2
+Global grid  : 1536 x 1024
+Domain size  : 1.500000 x 1.000000
+dx, dy       : 0.000977, 0.000978
+dt, NT       : 1.000000e-05, 7500
+GMRES        : max_iter=2000 tol=1.000000e-04
+Total runtime : 705.322982 s
+Operator total : 459.510134 s (54027 calls)
+GMRES total : 704.462862 s (27 calls)

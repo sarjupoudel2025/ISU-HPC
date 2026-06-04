@@ -11,7 +11,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_SELECTED_STEPS = [25, 50, 100]
+DEFAULT_SELECTED_STEPS = [25]#\, 50, 100]
 
 FILE_RE = re.compile(r"gmres_residual_(\d{4})\.dat$")
 

@@ -1,7 +1,33 @@
-This project is used to solve the 2D flow through a pipe. 
-It utilizes Open MP to run parallel processing and compare it with the single processing.
-First a 2D geometry (rectangular) is created. Then mesh is created having sufficient points
-that justifies use of parallel processing.
-Several functions are used to solve for flow.
-The functions are called as in single processor and then later called using open mp.
-MPI is also going to be utilized later to test in the HPC cluster.
+This project focuses on the numerical simulation of 2D incompressible fluid flow using a structured finite-difference method. A rectangular computational domain is discretized into a grid with sufficient resolution to justify parallel computation. The solver is first implemented in a serial form and then extended using OpenMP for shared-memory parallelization to compare performance with the single-processor version. MPI-based distributed-memory parallelization is also developed to enable execution on HPC clusters using domain decomposition and inter-process communication. The study aims to evaluate and compare the efficiency and scalability of these parallel approaches for CFD simulations.
+
+
+How to Run: Example. MPI
+
+Compile the code using:
+
+make
+
+Run the MPI solver with:
+
+mpirun -np <num_processes> ./solve_mpi
+
+Example:
+
+mpirun -np 64 ./solve_mpi
+
+The simulation parameters are read from params.txt.
+
+Output files are written to the vtk_mpi/ directory and can be visualized using ParaView. If VTK output was enabled in params.txt
+
+
+
+How to Run on the Cluster:
+Load the required compiler and MPI modules available on the cluster environment.
+Compile the solver using the provided Makefile.
+Submit the SLURM batch script (Run_serial.sh) to the scheduler.
+Monitor the job status using SLURM queue commands if needed.
+After completion, check the generated log and error files for runtime information.
+Simulation output files are written to the vtk_mpi/ directory and can be visualized using ParaView.
+Simulation settings such as grid size, timestep, solver parameters and vtk outputs are controlled through the params.txt input file.
+
+
